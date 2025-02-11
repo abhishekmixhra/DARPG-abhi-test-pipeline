@@ -1,0 +1,51 @@
+name: Deploy Node.js with Docker on EC2 via ECR
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test
+
+      - name: Build Docker Image
+        run: docker build -t 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test:latest .
+
+      - name: Push Docker Image to ECR
+        run: |
+          docker tag 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test:latest 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test:latest
+          docker push 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test:latest
+
+      - name: Deploy on EC2
+        env:
+          PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: 13.200.15.236
+          USER: ubuntu
+        run: |
+          echo "$PRIVATE_KEY" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST << 'EOF'
+            aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test
+            docker pull 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test:latest
+            docker stop node-app || true
+            docker rm node-app || true
+            docker run -d --restart always --name node-app -p 80:3000 831926612308.dkr.ecr.ap-south-1.amazonaws.com/test:latest
+          EOF
