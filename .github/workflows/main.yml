@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
 
 jobs:
   deploy:
@@ -31,8 +33,9 @@ jobs:
           echo "$PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
           ssh -o StrictHostKeyChecking=no -i private_key.pem $USER@$HOST << 'EOF'
+            docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
             docker pull ${{ secrets.DOCKER_USERNAME }}/node-app:latest
             docker stop node-app || true
             docker rm node-app || true
-            docker run -d --name node-app -p 80:3000 ${{ secrets.DOCKER_USERNAME }}/node-app:latest
+            docker run -d --restart always --name node-app -p 80:3000 ${{ secrets.DOCKER_USERNAME }}/node-app:latest
           EOF
