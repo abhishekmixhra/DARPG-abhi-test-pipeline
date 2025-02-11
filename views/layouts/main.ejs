@@ -1,0 +1,278 @@
+<!-- views/layouts/main.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/root.css" rel="stylesheet">
+    <link href="/static/datatables.net-dt/css/dataTables.dataTables.min.css" rel="stylesheet">
+
+        <!-- jQuery (required for DataTables) -->
+        <script src="/static/jquery/dist/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/@webpixels/css@1.1.5/dist/index.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- DataTables JS -->
+        <script src="/static/datatables.net/js/dataTables.min.js"></script>
+        <script src="/static/ckeditor4/ckeditor.js"></script>
+
+
+        <style>
+       
+
+            body {
+                font-family: 'Poppins', sans-serif;
+                background-color: #f8f9fa;
+            }
+            .header_stcky{
+                position: sticky;
+                top: 0;
+                z-index: 9999;
+            }
+            .display-4 {
+                font-size: 2rem !important;
+            }
+            .l_nw_header {
+                background-color: var(--sky-color);
+                color: var(--white);
+            }
+            .navbar-vertical .navbar-nav .nav-link {
+                padding: .75rem 1.5rem;
+                font-size: 12px;
+            }
+            .navbar-vertical.navbar-expand-lg.show {
+                    max-width: 220px;
+                    border-radius: 0;
+                    min-width: 220px;
+                }
+    
+            .m_line {
+                background: var(--white);
+                width: 2px;
+                height: 40px;
+                margin: 0 10px;
+            }
+            .m_line_li{
+                background: var(--white);
+                width: 2px;
+                height: 30px;
+                margin: 0 5px;
+            }
+    
+            .l_nw_a p {
+                font-size: 12px;
+                color: var(--white);
+                font-weight: var(--font-500);
+                margin: 0;
+            }
+    
+            .l_nw_header .navbar{
+                padding: 0 !important;
+            }
+    
+            .l_nw_header .navbar-brand {
+                display: flex;
+                align-items: center;
+            }
+    
+           
+    
+           
+    
+            .l_nw_ul li a{
+              color: var(--white) !important;
+              font-size: 12px !important;
+              font-weight: 500 !important;
+              color: var(--white) !important;
+              padding: 0.35rem !important;
+            }
+    
+            .l_nw_ul li a.active{
+                text-decoration: underline;
+            }
+    
+            .l_nw_ul li:hover{
+              text-decoration: underline;
+            }
+    
+            @media (min-width:992px) and (max-width: 1024px) {
+              .l_nw_ul li{
+                font-size: 10px;
+              }
+    
+                .l_nw_a p {
+                    font-size: 10px;
+                }
+            }
+    
+            @media (min-width:768px) and (max-width: 991px) {
+                /* .m_line {
+                    display: none;
+                } */
+    
+                .m_line_li{
+                    display: none;
+                }
+    
+                .l_nw_a p {
+                    font-size: 10px;
+                }
+            }
+    
+            @media (min-width:320px) and (max-width: 767px) {
+                /* .m_line {
+                    display: none;
+                } */
+    
+                .m_line_li{
+                    display: none;
+                }
+    
+                .l_nw_a p {
+                    font-size: 10px;
+                }
+            }
+    
+    
+    .lnw_h0{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+            .cap_btn {
+                background: var(--sky-color);
+                color: var(--white);
+                padding: 0.5rem 1.5rem;
+                margin-bottom: 7px;
+                border: none;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+    
+            .cap_btn:hover {
+                background: #0056b3;
+            }
+    
+            .cap_text p {
+                font-size: 12px;
+                color: var(--grey);
+                font-weight: 600;
+                margin: 0;
+            }
+    
+            .l_nw_header2 {
+                box-shadow:0 0 8px rgba(0, 0, 0, 0.2);
+                background: var(--white);
+            }
+    
+           
+    
+            @media (max-width: 576px) {
+                .lnw_h0{
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .cap_btn {
+                    font-size: 12px;
+                    padding: 0.2rem 1rem;
+                }
+    
+                .cap_text p {
+                    font-size: 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header_stcky">
+         <div class="l_nw_header">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#">
+                            <div class="d-flex align-items-center l_nw_a">
+                                <div class="text-end">
+                                    <p>भारत सरकार</p>
+                                    <p>Government of India</p>
+                                </div>
+                                <div class="m_line"></div>
+                                <div class="text-start">
+                                    <p>कार्मिक, लोक शिकायत और पेंशन मंत्रालय</p>
+                                    <p>Ministry of Personnel, Public Grievances & Pensions</p>
+                                </div>
+                            </div>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                            <ul class="navbar-nav l_nw_ul">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#"> <i class="fa fa-home" aria-hidden="true"></i> Home</a>
+                                </li>
+                                <div class="m_line_li"></div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> <i class="fa fa-phone" aria-hidden="true"></i> Contact Us</a>
+                                </li>
+                                <div class="m_line_li"></div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> <i class="fa fa-info-circle" aria-hidden="true"></i> About Us</a>
+                                </li>
+                                <div class="m_line_li"></div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> <i class="fa fa-question" aria-hidden="true"></i> FAQs/Help</a>
+                                </li>
+                                <div class="m_line_li"></div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> <i class="fa fa-laptop" aria-hidden="true"></i> Site Map</a>
+                                </li>
+                                <div class="m_line_li"></div>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"> <i class="fa fa-calendar" aria-hidden="true"></i> 2024 Holiday List</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+    
+            <div class="l_nw_header2 py-2">
+                <div class="container-fluid">
+                    <div class="lnw_h0 w-100">
+                        <div class="mb-md-0 mb-4">
+                            <img src="/images/locksabha.svg" alt="Logo" class="img-fluid secLogo">
+                        </div>
+                        <div class="cap_text ">
+                            <a href="#" class="btn cap_btn">CPGRAMS</a>
+                            <p>Centralized Public Grievance Redress And Monitoring System</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+    <!-- Include Sidebar -->
+    <%- include('../partials/sidebar', { currentPage: currentPage }) %>
+
+    <!-- Content -->
+        
+            <main class="pt-3">
+                <div class="content">
+                    <div class="container-fluid wrwp_padd">
+                        <%- include(body) %>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+    <script src="/static/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

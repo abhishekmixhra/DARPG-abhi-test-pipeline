@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <style>
+        .filters {
+            margin-bottom: 20px;
+        }
+        .filters select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Event Manager</h1>
+
+    <!-- Filter Section -->
+    <div class="filters">
+        <label for="eventCategory">Filter by Category:</label>
+        <select id="eventCategory">
+            <option value="">All Categories</option>
+            <option value="workOrder">Work Order</option>
+            <option value="moveIn">Move In</option>
+            <option value="reminder">Reminder</option>
+            <option value="note">Note</option>
+        </select>
+    </div>
+
+    <!-- Calendar Section -->
+    <div id="calendar"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const calendarEl = document.getElementById('calendar');
+            
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth', // Default view (can be changed to 'dayGridWeek' or 'timeGridDay')
+                views: {
+                    dayGridMonth: { buttonText: 'Month' },
+                    timeGridWeek: { buttonText: 'Week' },
+                    timeGridDay: { buttonText: 'Day' }
+                },
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay' // Buttons for different views
+                },
+                events: '/events/events', // Fetch events from the route
+
+                // Add Event
+                selectable: true,
+                editable: true,
+                select: async function (info) {
+                    const title = prompt('Enter Event Title');
+                    const type = prompt('Enter Event Type (e.g. workOrder, moveIn, reminder, note)');
+                    if (title && type) {
+                        const newEvent = {
+                            title,
+                            start: info.startStr,
+                            end: info.endStr,
+                            type,
+                            allDay: info.allDay,
+                        };
+
+                        const res = await fetch('/events/events', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newEvent),
+                        });
+                        if (res.ok) {
+                            calendar.addEvent(await res.json());
+                        }
+                    }
+                    calendar.unselect();
+                },
+
+                // Delete Event
+                eventClick: async function (info) {
+                    console.log(info.event);
+                    if (confirm(`Do you want to delete the event: "${info.event.title}"?`)) {
+                        const res = await fetch(`/events/events/${info.event.extendedProps._id}`, {
+                            method: 'DELETE',
+                        });
+                        if (res.ok) {
+                            info.event.remove();
+                        }
+                    }
+                },
+            });
+
+            calendar.render();
+
+            // Event Filter Handling
+            const categoryFilter = document.getElementById('eventCategory');
+            categoryFilter.addEventListener('change', function () {
+                const selectedCategory = categoryFilter.value;
+                
+                // Refetch events based on selected filter
+                const eventsUrl = selectedCategory ? `/events/events?category=${selectedCategory}` : '/events/events';
+                calendar.removeAllEvents(); // Clear previous events
+                calendar.addEventSource(eventsUrl); // Fetch and add events based on selected category
+            });
+        });
+    </script>
+</body>
+</html>

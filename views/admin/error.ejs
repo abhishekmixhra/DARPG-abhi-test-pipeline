@@ -1,0 +1,14 @@
+<div class="container mt-5">
+    <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+            <h4><%= errorTitle %></h4>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Oops! Something went wrong.</h5>
+            <p class="card-text">
+                <%= errorMessage %>
+            </p>
+            <a href="<%= redirectUrl || '/admin/grievance_list' %>" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</div>

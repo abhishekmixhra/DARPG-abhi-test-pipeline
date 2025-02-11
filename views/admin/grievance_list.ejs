@@ -1,0 +1,132 @@
+
+    <div class="container">
+        <h2>Manage Grievances</h2>
+        <div class="table-responsive">
+            <table id="grievanceTable" class="table table-striped w-100">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th class="grievanceSubject">Subject</th>
+                        <th>Submitted By</th>
+                        <!-- <th>Submitted For</th> -->
+                        <!-- <th>Contact Information</th> -->
+                        <th>User Feedback</th>
+                        <th>Priority</th>
+                        <th>Sentiment</th>
+                        <th>Assigned Department</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% grievances.forEach(grievance => { %>
+                        <tr>
+                            <td><%= grievance.grievanceId %></td>
+                            <td class="grievanceSubject"><p><%= grievance.subject %></p></td>
+                            <td><%= grievance.submittedBy ? grievance.submittedBy : 'N/A' %> </td> <!-- (<%= grievance.userId ? grievance.userId.email : 'N/A' %>) -->
+
+                            <!-- <td><%= grievance.onBehalf ? grievance.onBehalf : 'For Self' %> </td>  -->
+                            <td>
+                                <% if (grievance.thumbs === 'up') { %>
+                                <i class="fas fa-thumbs-up text-success"></i> <!-- Up thumb icon -->
+                                <% } else if (grievance.thumbs === 'down') { %>
+                                <i class="fas fa-thumbs-down text-danger"></i> <!-- Down thumb icon -->
+                                <% } else { %>
+                                - <!-- Placeholder for no thumbs -->
+                                <% } %>
+                            </td>                          
+                            <td><%= grievance.priority ? grievance.priority : '-' %> </td> 
+                            <td>
+                                <% if (grievance.sentiment === 'positive') { %>
+                                  <i class="fas fa-smile text-success" aria-hidden="true"></i> <!-- Positive sentiment -->
+                                <% } else if (grievance.sentiment === 'negative') { %>
+                                  <i class="fas fa-frown text-danger" aria-hidden="true"></i> <!-- Negative sentiment -->
+                                <% } else if (grievance.sentiment === 'neutral') { %>
+                                  <i class="fas fa-meh text-warning" aria-hidden="true"></i> <!-- Neutral sentiment -->
+                                <% } else { %>
+                                  - <!-- Default case if sentiment is undefined -->
+                                <% } %>
+                              </td>                              
+                              
+
+                            <!-- <td><%= grievance.contactInformation %></td> -->
+                            <td><%= grievance.assignedDepartment || 'Unassigned' %></td>
+                            <td><%= grievance.status || 'Pending' %></td>
+                            <td>
+                                <a href="/admin/grievance_details/<%= grievance._id %>" class="btn btn-primary btn-sm">View</a>
+                            </td>
+                            <!-- <td><button class="btn btn-info view-grievance" data-id="<%= grievance._id %>">View</button></td> -->
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Modal for showing grievance details -->
+<div class="modal fade" id="grievanceModal" tabindex="-1" aria-labelledby="grievanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="grievanceModalLabel">Grievance Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Grievance details will be loaded here -->
+                <div id="grievanceDetails">
+                    <!-- Details will be shown dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Event listener for the "View" button
+$(document).on('click', '.view-grievance', function() {
+    const grievanceId = $(this).data('id'); // Get grievance ID from the button data attribute
+
+    // Make an AJAX request to fetch grievance details
+    $.ajax({
+        url: '/admin/grievance_details/' + grievanceId, // Call the API route
+        method: 'GET',
+        success: function(data) {
+            // Populate the modal with grievance details
+            const details = `
+                <h4>Subject: ${data.subject}</h4>
+                <p><strong>Submitted By:</strong> ${data.submittedBy.name} (${data.submittedBy.email})</p>
+                <p><strong>Description:</strong> ${data.description}</p>
+                <p><strong>Contact Information:</strong> ${data.contactInformation}</p>
+                <p><strong>Assigned Department:</strong> ${data.assignedDepartment}</p>
+                <p><strong>Assigned To:</strong> ${data.assignedTo}</p>
+                <p><strong>Resolution Deadline:</strong> ${new Date(data.resolutionDeadline).toLocaleDateString()}</p>
+                <p><strong>Proposed Resolution:</strong> ${data.proposedResolution}</p>
+                <p><strong>Attachments:</strong></p>
+                <ul>
+                    ${data.attachments.map(url => `<li><a href="${url}" target="_blank">View Attachment</a></li>`).join('')}
+                </ul>
+            `;
+            $('#grievanceDetails').html(details);
+            // Show the modal
+            $('#grievanceModal').modal('show');
+        },
+        error: function(err) {
+            alert('Failed to load grievance details');
+        }
+    });
+});
+</script>
+
+    <script>
+        $(document).ready(function () {
+            $('#grievanceTable').DataTable({
+                pageLength: 10,
+                responsive: true,
+                order: [],
+                stateSave: false, 
+                columnDefs: [
+            { orderable: false, targets: [0, 3] } // Disable sorting for columns at index 0 and 3
+        ]
+            });
+        });
+    </script>
+    

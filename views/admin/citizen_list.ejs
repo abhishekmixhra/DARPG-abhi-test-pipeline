@@ -1,0 +1,49 @@
+<style>
+    .dt-paging{float: right;}
+    
+</style>
+<div class="container ">
+    <h2 class="mb-2">Citizen List</h2>
+
+    <!-- Citizen List Table -->
+    <!-- <div class="card shadow-sm">
+        <div class="card-body"> -->
+            <table id="citizenTable" class=" table table-striped ">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <!-- <th>Actions</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% citizens.forEach(citizen => { %>
+                        <tr>
+                            <td><%= citizen.name %></td>
+                            <td><%= citizen.email %></td>
+                           <td><%= citizen.mobile %></td>
+                            <td><%= citizen.district %>, <%= citizen.state %>, <%= citizen.pinCode %></td>
+                            <!-- <td>
+                                <a href="/admin/citizen_details/<%= citizen._id %>" class="btn btn-info btn-sm">View</a>
+                            </td> -->
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <!-- </div>
+    </div> -->
+</div>
+
+    <script>
+        $(document).ready(function() {
+            $('#citizenTable').DataTable({
+                pageLength: 10,
+                responsive: true
+            });
+        });
+    </script>
+
+</body>
+</html>

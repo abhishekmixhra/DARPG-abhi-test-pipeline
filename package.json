@@ -1,0 +1,38 @@
+{
+  "name": "darpg",
+  "version": "1.0.0",
+  "description": "Backend for DARPG application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.41.1",
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.7",
+    "ckeditor4": "^4.25.0",
+    "cors": "^2.8.5",
+    "datatables.net": "^2.1.8",
+    "datatables.net-dt": "^2.1.8",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "langdetect": "^0.2.1",
+    "langs": "^2.0.0",
+    "mongoose": "^8.9.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

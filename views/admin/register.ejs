@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="/static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+     .loginBg{
+            /* background-image: url(/images/loginImg.jpg); */
+            width: 100%;
+            min-height: 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: auto;
+            background-size: cover;
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        .registerSection label,.registerSection h2{
+            color: #fff;
+        }
+        .registerSection {
+            max-width: 900px;
+            background: #2d2b38b3;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 100%);
+            min-width: 500px;
+        }
+        .registerSection input::placeholder {
+            color: rgba(255, 255, 255, .8); /* Change to your desired color */
+            opacity: 1; /* Optional: to ensure the placeholder is fully opaque */
+        }
+
+        .registerSection input{
+            background: transparent;
+            border: 0;
+            border-bottom: 2px solid #ddd;
+            outline: 0;
+        }
+        .registerBtn{
+            background-color: #ba1717;
+            border: 0;
+        }
+</style>
+<body class="loginBg">
+    <div class="container registerSection">
+        <h2 class="text-center mb-0">OFFICER REGISTRATION</h2>
+
+        <!-- Display Error Message -->
+        <% if (error) { %>
+            <div class="alert alert-danger text-center"> <%= error %> </div>
+        <% } %>
+
+        <form action="/admin/register" method="POST" class="needs-validation" novalidate>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Name" required>
+                    <div class="invalid-feedback">Name is required.</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="designation" class="form-label">Designation:</label>
+                    <input type="text" id="designation" name="designation" class="form-control" placeholder="Designation" required>
+                    <div class="invalid-feedback">Designation is required.</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <input type="text" id="address" name="address" class="form-control" placeholder="Address" required>
+                    <div class="invalid-feedback">Address is required.</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="phone" class="form-label">Phone:</label>
+                    <input type="number" id="phone" name="phone" class="form-control" placeholder="Phone No." required>
+                    <div class="invalid-feedback">Phone is required.</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email Id" required>
+                    <div class="invalid-feedback">Please enter a valid email.</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="groType" class="form-label">GRO Type:</label>
+                    <select id="groType" name="groType" class="form-control" required>
+                        <option value="0">Central</option>
+                        <option value="1">State</option>
+                    </select>
+                    <div class="invalid-feedback">Please select a GRO type.</div>
+                </div>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="ministry" class="form-label">Ministry:</label>
+                    <select id="ministry" name="ministry" class="form-control" required>
+                        <% if (ministries.length > 0) { %>
+                            <% ministries.forEach(ministry => { %>
+                                <option value="<%= ministry._id %>"><%= ministry.m_name %> (<%= ministry.m_type %>)</option>
+                            <% }) %>
+                        <% } else { %>
+                            <option disabled>No ministries available</option>
+                        <% } %>
+                    </select>
+                    
+                    <div class="invalid-feedback">Please select a ministry.</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="ministry" class="form-label">Language:</label>
+                    <select id="language" name="language" class="form-control">
+                        <!-- <option value="ASSAMESE">Assamese</option> -->
+                        <option value="ENGLISH">ENGLISH</option>
+                        <option value="BENGALI">Bengali</option>
+                        <option value="GUJARATI">Gujarati</option>
+                        <option value="HINDI">Hindi</option>
+                        <!-- <option value="KANNADA">Kannada</option> -->
+                        <!-- <option value="KASHMIRI">Kashmiri</option>
+                        <option value="KONKANI">Konkani</option> -->
+                        <option value="MALAYALAM">Malayalam</option>
+                        <option value="MARATHI">Marathi</option>
+                        <!-- <option value="NEPALI">Nepali</option>
+                        <option value="ORIYA">Oriya</option> -->
+                        <option value="PUNJABI">Punjabi</option>
+                        <!-- <option value="SANSKRIT">Sanskrit</option> -->
+                        <!-- <option value="SINDHI">Sindhi</option> -->
+                        <option value="TAMIL">Tamil</option>
+                        <option value="TELUGU">Telugu</option>
+                        <option value="URDU">Urdu</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                    <div class="invalid-feedback">Password is required.</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" required>
+                    <div class="invalid-feedback">Confirm password is required.</div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 registerBtn">Register</button>
+        </form>
+
+        <p class="mt-3 text-center text-white">Already have an account? <a href="/admin/login">Login</a></p>
+    </div>
+
+    <!-- Link to Bootstrap JS (with Popper.js) -->
+    <script src="/static/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Client-side validation for Bootstrap form
+        (function() {
+            'use strict';
+            var forms = document.querySelectorAll('.needs-validation');
+            Array.prototype.slice.call(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+        })();
+    </script>
+</body>
+</html>

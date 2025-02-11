@@ -1,0 +1,272 @@
+<style>
+    .das_navbar {
+        background: var(--sky-color) !important;
+        border-radius: 30px !important;
+    }
+
+    .das_logo {
+        background: rgba(245, 250, 252, 1);
+        color: var(--sky-color) !important;
+        padding: 0.5rem 1.5rem !important;
+        font-weight: 700;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .das_h40{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .das_navbar_nav .nav-item{
+        border-radius: 15px;
+    }
+
+    .das_navbar_nav .nav-link {
+        color: var(--white) !important;
+        font-weight: 600;
+        padding: 0.75rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        border-radius: 15px;
+    }
+
+    .das_navbar_nav .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--sky-color) !important;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+    }
+
+    .das_navbar_nav .nav-link.active {
+        background: rgba(255, 255, 255, 0.2);
+        color: var(--sky-color) !important;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+    }
+
+    .das_navbar_nav .nav-link i {
+        margin-right: 10px;
+        color: var(--white) !important;
+    }
+    .das_navbar_nav .nav-link:hover i {
+        color: var(--sky-color) !important;
+    }
+    .das_navbar_nav .nav-link.active i {
+        color: var(--sky-color) !important;
+
+    }
+
+
+    .bg-surface-primary {
+        background: #f8f9fa;
+    }
+
+    .shadow {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .has-search .form-control {
+
+    padding: 0.5rem 1.25rem 0.5rem 2.375rem !important;
+    border-radius: 35px !important;
+    }
+
+    .has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    
+    }
+
+
+    .das_card{
+        background: var(--white);
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+    }
+
+    .mtop{
+        margin-top: 75px;
+        margin-bottom: 60px;
+    }
+
+    .card_img{
+        background: var(--sky-color);
+        width: 90px;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-top: -50px;
+    }
+
+    .card_img img{
+        width: 90%;
+        padding: 10px;
+    }
+
+    .p20{
+        padding: 20px 20px 0 20px;
+    }
+    .p10{
+        padding: 10px 20px;
+    }
+    .card_txt{
+        margin-top: 20px;
+    }
+
+    .card_txt p{
+        font-size: 18px;
+        font-weight: 500;
+        color: #000;
+        height: 50px;
+    }
+
+    .card_txt h2{
+        font-size: 50px;
+        color: #000;
+        font-weight: 700;
+    }
+
+    .hline{
+        width: 100%;
+        height: 3px;
+        background: var(--sky-color);
+    }
+
+    .card_rating{
+        font-size: 20px;
+        color: rgba(70, 228, 72, 1);
+
+    }
+    .das_table{
+        border: 1px solid #aaa;
+        padding: 5px;
+        border-radius: 10px;
+        margin: 20px 0;
+    }
+    .navbar-vertical .navbar-nav .nav-link i, .navbar-vertical .navbar-nav .nav-link svg {
+        min-width: 1.2rem;
+    }
+</style>
+
+<!-- Dashboard -->
+<section style="background: rgba(245, 250, 252, 1);">
+<div class="px-1">
+    <div class="d-flex flex-column flex-lg-row h-lg-full">
+        <!-- Vertical Navbar -->
+        <nav class="navbar show navbar-vertical h-lg-screen das_navbar navbar-expand-lg px-0 py-3 navbar-light border-bottom border-bottom-lg-0 border-end-lg" id="navbarVertical">
+            <div class="container-fluid">
+                <!-- Toggler -->
+                <div>
+                    <div class=" das_h40 py-3">
+                        <a href="#" class="navbar-brand das_logo">CPGRAMS</a>
+                    </div>
+                    <button class="navbar-toggler ms-n2" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <!-- Brand -->
+                   
+                </div>
+                <!-- Collapse -->
+                <div class="collapse navbar-collapse" id="sidebarCollapse">
+                    <!-- Navigation -->
+                    <ul class="navbar-nav das_navbar_nav p-3 sideMenuSection">
+                        <li class="nav-item p-2">
+                            <a href="/admin/dashboard" class="nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>">
+                                <i class="fa-solid fa-table-columns"></i> Dashboard</a>
+                        </li>
+                        <!-- <li class="nav-item p-2">
+                            <a class="nav-link" href="profile.html">
+                                <i class="bi bi-person-circle"></i> Profile
+                            </a>
+                        </li> -->
+                        <li class="nav-item p-2">
+                            <a href="/admin/citizen_list" class="nav-link <%= currentPage === 'citizen_list' ? 'active' : '' %>">
+                                <i class="fa-solid fa-table-list"></i> Citizen List
+                            </a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a href="/admin/grievance_list" class="nav-link <%= currentPage === 'grievance_list' ? 'active' : '' %>">
+                                <i class="fa-solid fa-circle-info"></i> Grievance List and Details
+                            </a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a href="/events/all" class="nav-link <%= currentPage === 'eventManager' ? 'active' : '' %>">
+                                <i class="fa-solid fa-calendar-days"></i> Calendar
+                            </a>
+                        </li>
+                        <li class="nav-item p-2">
+                            <a href="/reports/all" class="nav-link <%= currentPage === 'reportManager' ? 'active' : '' %>">
+                                <img class="img-fluid" src="./images/report.svg" alt="">
+                                <i class="fa-solid fa-file-lines"></i>Reports Analytics
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item p-2">
+                            <a class="nav-link" href="tools.html">
+                                <i class="bi bi-tools"></i> Tools and Resources
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item p-2">
+                            <a class="nav-link" href="reports.html">
+                                <i class="bi bi-bar-chart"></i> Reports
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item p-2">
+                            <a class="nav-link" href="settings.html">
+                                <i class="bi bi-gear"></i> Settings
+                            </a>
+                        </li> -->
+                        <!-- <li class="nav-item p-2">
+                            <a class="nav-link" href="help.html">
+                                <i class="bi bi-question-circle"></i> Help
+                            </a>
+                        </li> -->
+                        <li class="nav-item p-2">
+                            <a class="nav-link" href="/admin/logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Main content -->
+        <div class="h-screen flex-grow-1 ">
+            <!-- Header -->
+            <header class="bg-surface-primary shadow mx-2 mt-2" style="border-radius: 10px;">
+                <!-- <div class="container-fluid"> -->
+                    <div class="d-flex justify-content-end align-items-center p-2" >
+                        <!-- Search Bar -->
+                       <!-- Actual search box -->
+                        <div class="form-group has-search me-3">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <!-- User Profile -->
+                        <div class="d-flex align-items-center">
+                            <img src="/images/admin.jpg" alt="Profile" class="rounded-circle me-2" style="width: 40px; height:40px;">
+                            <span class="fw-bold" style="font-size: 12px;"><%= adminName %></span>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </header>
+        
+
+<!-- <div class="sidebar">
+    <h2 class="text-center">CPGRAMS</h2>
+    <a href="/admin/dashboard" class="<%= currentPage === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+    <a href="/admin/citizen_list" class="<%= currentPage === 'citizen_list' ? 'active' : '' %>">Citizens List</a>
+    <a href="/admin/grievance_list" class="<%= currentPage === 'grievance_list' ? 'active' : '' %>"> Grievance List and Details</a>
+    <a href="/admin/logout">Logout</a>
+</div> -->

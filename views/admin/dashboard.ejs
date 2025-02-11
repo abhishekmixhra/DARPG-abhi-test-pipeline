@@ -1,0 +1,191 @@
+<!-- Header Section -->
+<div class="header text-center mb-4">
+    <h2>Welcome, <%= adminName %>!</h2>
+    <!-- <p class="text-muted">This is your dashboard. You can manage Grievences from here.</p> -->
+</div>
+
+<!-- Dashboard Cards Section -->
+    <!-- totalGrievances,
+    inpregressGrievances,
+    pendingGrievances,
+    closedGrievances,
+    reopenGrievances -->
+<div class="row mb-5">
+    
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark"><%= data.totalGrievances %></p>
+                    <h5 class="card-title text-primary">Total Grievances</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+           
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark"><%= (data.inprogressGrievances ? data.inprogressGrievances : '0') %></p>
+                    <h5 class="card-title text-primary">Active Grievances</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark"><%= data.pendingGrievances %></p>
+                    <h5 class="card-title text-primary">Open(Pending)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark"><%= data.closedGrievances %></p>
+                    <h5 class="card-title text-primary">Closed</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark"><%= data.reopenGrievances %></p>
+                    <h5 class="card-title text-primary">Appeals Reopen</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+           
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark"><%= data.Usercount %></p>
+                    <h5 class="card-title text-primary">Manage/View subordinate</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+           
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark">0</p>
+                    <h5 class="card-title text-primary">Appeals closed</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-5">
+        <div class="card shadow-sm text-center border-0">
+            <div class="card-body cardSection">
+                <img src="/images/dashboardCard.png" alt="avtar">
+                <div class="text-end">
+                    <p class="display-4 text-dark">5</p>
+                    <h5 class="card-title text-primary">Mobiles</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+<!-- Grievance Summary Chart -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Grievance Summary</h3>
+            <p class="text-muted">An overview of grievances by status.</p>
+            <canvas id="grievanceChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+</div>
+<script src="/static/chart.js/dist/chart.umd.js"></script>
+
+<script>
+   const grievanceData = {
+    total: '<%= data.totalGrievances %>',
+    pending: '<%= data.pendingGrievances %>',
+    progress: '<%= data.inprogressGrievances %>',
+    closed: '<%= data.closedGrievances %>',
+    reopen: '<%= data.reopenGrievances %>',
+};
+
+// Update the chart data and labels
+const ctx = document.getElementById('grievanceChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            'Total Grievances',
+            'Pending Grievances',
+            'In-Progress Grievances',
+            'Closed Grievances',
+            'Reopened Grievances'
+        ],
+        datasets: [{
+            label: 'Number of Grievances',
+            data: [
+                grievanceData.total,
+                grievanceData.pending,
+                grievanceData.progress,
+                grievanceData.closed,
+                grievanceData.reopen
+            ],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.6)',  // Blue
+                'rgba(255, 193, 7, 0.6)',   // Yellow
+                'rgba(153, 102, 255, 0.6)', // Purple
+                'rgba(40, 167, 69, 0.6)',   // Green
+                'rgba(220, 53, 69, 0.6)'    // Red
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 193, 7, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(40, 167, 69, 1)',
+                'rgba(220, 53, 69, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Grievances'
+                }
+            }
+        }
+    }
+});
+
+</script>
